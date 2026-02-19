@@ -2,44 +2,89 @@
 
 ## The Problem
 
-**3.5 billion football fans** worldwide, and **$22B+ fantasy sports market** growing 14% YoY — yet **zero** mobile-native fantasy football apps exist on Solana.
+**3.5 billion football fans. $22B+ fantasy sports market. And it's fundamentally broken.**
 
-Today's fantasy football suffers from:
-- 💸 **Opaque prize pools** — centralized platforms skim 15-20% with no transparency
-- 🏦 **Locked funds** — withdrawals take 3-7 days, limited to bank transfers
-- 📱 **Desktop-first UX** — existing crypto fantasy apps are web ports, not mobile-native
-- 🌍 **Excluded markets** — users in Africa, SEA, and LATAM can't participate due to payment rails
+Traditional fantasy football — led by FPL, FanDuel, and DraftKings — forces users into a broken model:
+
+| What's Broken | Reality |
+|--------------|---------|
+| 🏢 **Company controls your money** | Platforms hold all funds, decide payouts, and skim 15-20% |
+| 📅 **Seasonal lock-in** | FPL pays ONE winner at the end of a 10-month season. Most players earn nothing. |
+| ⏳ **Wait forever to get paid** | Withdrawals take 3-7 days through restrictive payment rails |
+| 🌍 **League-locked** | Stuck playing one league. Season ends? Come back in 4 months. |
+| � **No user control** | You can't create your own tournaments, set your own stakes, or choose your own rules |
+
+> **The result?** 90%+ of fantasy managers play all season and earn absolutely nothing. The house always wins.
 
 ---
 
 ## The Solution
 
-**Football Fusion** is a **mobile-first fantasy football dApp** built natively for Solana's Seeker ecosystem.
+**Football Fusion is PvP fantasy football where players — not corporations — control the game.**
 
-Users build 15-player squads from real Premier League data, enter USDC-staked tournaments, and compete for transparent, on-chain prize pools — all from their phone.
+Users create their own tournaments, set their own entry fees, and compete head-to-head for transparent prize pools that pay out **weekly or monthly** — not at the end of a 10-month season.
 
-| Feature | How It Works |
-|---------|-------------|
-| 🏟️ **Create & Join Tournaments** | On-chain via Anchor program — entry fees go to PDA prize vaults |
-| 👥 **Build Fantasy Teams** | 15 real FPL players, 100-point budget, tactical formations |
-| 💰 **USDC Prize Pools** | 97% goes to winners (50/30/20 split), 3% platform fee — all verifiable |
-| 🔗 **Blockchain Verified** | Every tournament + join transaction on Solana Explorer |
-| 💳 **On/Off-Ramp** | Buy USDC with card/bank, withdraw to bank — via Transak integration |
-| 📊 **Live Leaderboards** | Real-time rankings synced with FPL gameweek scores |
+### How It's Different
+
+| Traditional Fantasy | **Football Fusion** |
+|--------------------|--------------------|
+| Company-owned tournaments | **User-created** — you set the rules, stakes, and duration |
+| One winner at season's end | **Weekly/monthly payouts** — earn as you play |
+| Single league (EPL only) | **Multi-league** — Premier League, La Liga, Serie A, and more |
+| Seasonal (Sep–May) | **Year-round** — always a league in season somewhere |
+| Opaque, company-held prize pools | **Transparent on-chain pools** — every dollar verifiable |
+| 15-20% platform rake | **3% fee** — 97% goes directly to winners |
 
 ---
 
-## Why Solana Mobile?
+## How It Works
 
-Football Fusion is **built from the ground up** for the Seeker community:
+```mermaid
+graph LR
+    A["🎮 Create Tournament"] --> B["Set entry fee, duration, league"]
+    B --> C["👥 Players Join & Stake USDC"]
+    C --> D["⚽ Build 15-Player Squads"]
+    D --> E["📊 Live FPL Scores Each Gameweek"]
+    E --> F["🏆 Winners Get Paid (50/30/20)"]
+    F --> G["💰 Instant USDC Payout"]
+```
 
-| Criteria | Implementation |
-|----------|----------------|
-| **Solana Mobile Stack** | React Native + Expo, compiled APK, not a PWA wrapper |
-| **Mobile Wallet Adapter** | MWA-compatible via `useSolanaWallet()` hook for tx signing |
-| **Meaningful Solana Interaction** | 12-instruction Anchor program: create, join, score, distribute prizes |
-| **SPL Token Integration** | USDC (SPL) for entry fees, prize vaults, platform fees |
-| **On-chain Verification** | All tournaments + teams stored as PDAs, verifiable on Explorer |
+### Core Mechanics
+
+| Feature | Details |
+|---------|---------|
+| 🏟️ **Create Tournaments** | Any user can create — set entry fee (USDC), max players, duration, league |
+| � **Flexible Duration** | 1 week, 1 month, or custom — earn on YOUR schedule |
+| 🌍 **Multi-League** | Premier League today, La Liga & Serie A coming — play year-round |
+| � **PvP Competition** | Small groups (2-64 players) — no competing against millions |
+| 💰 **Instant Payouts** | USDC paid directly to your wallet — no withdrawal delays |
+| � **Real Player Data** | Powered by live FPL stats — real performances, real stakes |
+| 💳 **Easy On/Off-Ramp** | Buy USDC with card/bank, cash out to bank account |
+
+---
+
+## Why This Wins
+
+### 🎯 Stickiness & Engagement
+
+Unlike seasonal fantasy that dies in May, Football Fusion creates **continuous engagement loops**:
+
+1. **Weekly payouts** → Check scores every gameweek, instant reward cycle
+2. **Multi-league** → EPL ends? La Liga finals still running. Always a tournament live
+3. **User-created tournaments** → Friends challenging friends, community leagues, rivalries
+4. **Financial stakes** → Every gameweek matters when real money is on the line
+5. **Short-form competitions** → 1-week sprints for casual players, monthly for hardcore fans
+
+> **The result:** An always-on fantasy platform that pays you every week, not once a year.
+
+### 🎯 Product-Market Fit
+
+| Segment | Size | Pain Point We Solve |
+|---------|------|-------------------|
+| **FPL Players** | 11M+ active | Play all season, earn nothing — want stakes |
+| **Casual Fans** | Hundreds of millions | 10-month commitment is too long — want short tournaments |
+| **Multi-League Fans** | Growing | Follow La Liga AND EPL — want one app for all |
+| **Emerging Markets** | Africa, SEA, LATAM | Can't access FanDuel — need USDC + crypto rails |
 
 ---
 
@@ -47,61 +92,42 @@ Football Fusion is **built from the ground up** for the Seeker community:
 
 ```mermaid
 graph TB
-    subgraph Mobile["📱 Football Fusion App"]
+    subgraph Mobile["📱 Football Fusion App (Android)"]
         UI["React Native UI"]
         MWA["Mobile Wallet Adapter"]
         API["Supabase API"]
     end
 
-    subgraph Solana["⛓️ Solana Devnet"]
-        Program["Anchor Program"]
+    subgraph Solana["⛓️ Solana Blockchain"]
+        Program["Anchor Program (12 Instructions)"]
         Platform["Platform PDA"]
         Tournaments["Tournament PDAs"]
-        PrizeVaults["Prize Vault (USDC)"]
+        PrizeVaults["Prize Vault (USDC SPL)"]
     end
 
     subgraph Services["☁️ Services"]
         Supabase["Supabase (Auth + DB)"]
-        FPL["FPL API (Player Data)"]
-        Transak["Transak (On/Off-Ramp)"]
+        FPL["FPL API (Live Player Stats)"]
+        Transak["Transak (Fiat On/Off-Ramp)"]
     end
 
     UI --> MWA
     MWA --> Program
-    Program --> Platform
     Program --> Tournaments
     Program --> PrizeVaults
-    UI --> API
-    API --> Supabase
+    UI --> API --> Supabase
     UI --> FPL
     UI --> Transak
 ```
 
----
+### Solana Integration
 
-## Stickiness & Product-Market Fit
-
-### 📈 Daily Engagement Loops
-
-1. **Gameweek Cycle** — Every FPL gameweek (3-4 days), users check scores, adjust teams, and see leaderboard changes
-2. **Tournament FOMO** — Active tournaments with registration deadlines create urgency
-3. **Financial Stake** — USDC entry fees make every gameweek meaningful
-4. **Social Competition** — Leaderboards drive rivalry and bragging rights
-
-### 🎯 Target Users
-
-| Segment | Size | Why They Care |
-|---------|------|---------------|
-| **FPL Players** | 11M+ active managers | Already obsessed, want stakes |
-| **Crypto-native Sports Fans** | Growing | Want mobile-first dApps |
-| **Seeker Community** | Day 1 | Looking for sticky, daily-use dApps |
-| **Emerging Markets** | Massive | USDC > local payment rails |
-
-### 💡 Moat
-
-- **Real FPL Data** — not fake players, real Premier League stats
-- **On-chain transparency** — every dollar is verifiable, impossible with traditional platforms
-- **Mobile-native UX** — not a web app crammed into a phone
+| On-Chain Action | What Happens |
+|----------------|-------------|
+| **Create Tournament** | PDA created with entry fee, duration, cap. Prize vault initialized |
+| **Join Tournament** | USDC transferred to prize vault. Team + stats recorded on-chain |
+| **Distribute Prizes** | 50/30/20 split via PDA signer. Winner stats updated on-chain |
+| **Verify Anything** | Every tx visible on Solana Explorer — full transparency |
 
 ---
 
@@ -110,31 +136,33 @@ graph TB
 ```
 Entry Fee → 97% Prize Pool + 3% Platform Fee
             ↓                    ↓
-     Winners (USDC)      Platform Revenue
-     50% / 30% / 20%    (On-chain, verifiable)
+     Top 3 Winners (USDC)  Platform Revenue
+     50% / 30% / 20%       (All on-chain, verifiable)
 ```
 
-| Metric | Projection (Year 1) |
-|--------|---------------------|
-| Target Users | 10,000 active managers |
+| Metric | Year 1 Projection |
+|--------|-------------------|
+| Active Users | 10,000 managers |
 | Avg Entry Fee | 5 USDC |
 | Tournaments/Week | 50 |
 | Weekly Volume | 250,000 USDC |
-| Platform Revenue | 7,500 USDC/week |
+| Platform Revenue | ~7,500 USDC/week |
 | Annual Revenue | ~390,000 USDC |
 
 ---
 
 ## Competitive Landscape
 
-| Feature | FanDuel / DraftKings | Sorare | Phantasia | **Football Fusion** |
-|---------|---------------------|--------|-----------|---------------------|
-| Mobile-Native | ✅ | ❌ Web | ❌ Web | ✅ **Solana Mobile** |
-| On-Chain Prizes | ❌ | Partial (NFTs) | ✅ | ✅ **USDC PDAs** |
-| Transparent Fees | ❌ | ❌ | Partial | ✅ **3%, verifiable** |
-| Real FPL Data | ❌ | ❌ Own system | ❌ | ✅ **Real FPL API** |
-| Global Access | ❌ Geo-locked | ✅ | ✅ | ✅ **USDC + Transak** |
-| Solana dApp Store | ❌ | ❌ | ❌ | ✅ **Built for Seeker** |
+| | FPL | FanDuel | Sorare | **Football Fusion** |
+|---|-----|---------|--------|---------------------|
+| **Who creates tournaments?** | Company | Company | Company | **Anyone** |
+| **Payout frequency** | End of season | Per contest | Per card sale | **Weekly/Monthly** |
+| **Payout transparency** | None | None | Partial | **100% on-chain** |
+| **Platform fee** | N/A | 15-20% | Hidden | **3%** |
+| **Multi-league** | EPL only | US sports | Multi | **Multi-league** |
+| **Year-round?** | ❌ Seasonal | ✅ | ✅ | ✅ **Always on** |
+| **Mobile-native** | ✅ | ✅ | ❌ Web | ✅ **Built for Seeker** |
+| **Global access** | ✅ Free | ❌ Geo-locked | ✅ | ✅ **USDC + Transak** |
 
 ---
 
@@ -142,25 +170,24 @@ Entry Fee → 97% Prize Pool + 3% Platform Fee
 
 | Layer | Technology |
 |-------|-----------|
-| **Mobile** | React Native + Expo (SDK 53) |
-| **Blockchain** | Solana (Anchor Framework, SPL Token) |
-| **Wallet** | Mobile Wallet Adapter (MWA) |
+| **Mobile** | React Native + Expo (SDK 53) — native Android APK |
+| **Blockchain** | Solana (Anchor Framework, SPL Token, USDC) |
+| **Wallet** | Mobile Wallet Adapter (MWA) — Seeker compatible |
 | **Backend** | Supabase (Auth, Postgres, Realtime) |
-| **Data** | Fantasy Premier League API |
+| **Player Data** | Fantasy Premier League API (live stats) |
 | **On/Off-Ramp** | Transak (card/bank ↔ USDC) |
-| **Build** | EAS Build → APK |
 
 ---
 
 ## Roadmap
 
-| Phase | Timeline | Deliverables |
-|-------|----------|-------------|
-| ✅ **MVP** | Now | Tournament create/join, team builder, leaderboards, wallet |
+| Phase | Timeline | What Ships |
+|-------|----------|-----------|
+| ✅ **MVP** | Now | Tournament create/join, team builder, USDC stakes, leaderboards, wallet |
 | 🔜 **v1.1** | Month 2 | Push notifications, gameweek reminders, social sharing |
-| 📱 **v1.2** | Month 3 | Head-to-head mode, custom leagues, chat |
-| 🌍 **v2.0** | Month 4-5 | Multi-league support (La Liga, Serie A), NFT rewards |
-| 🏆 **v3.0** | Month 6+ | Governance token, DAO-managed tournaments, cross-chain |
+| 📱 **v1.2** | Month 3 | Head-to-head mode, private leagues, in-app chat |
+| 🌍 **v2.0** | Month 4-5 | La Liga, Serie A, Bundesliga — true year-round play |
+| 🏆 **v3.0** | Month 6+ | Season passes, NFT rewards, community governance |
 
 ---
 
@@ -168,29 +195,24 @@ Entry Fee → 97% Prize Pool + 3% Platform Fee
 
 | Role | Expertise |
 |------|-----------|
-| **FonioLabs** | Full-stack development, Solana smart contracts, mobile-first Web3 |
-
----
-
-## The Ask
-
-1. **Publish to Solana dApp Store** — ready for Seeker Day 1
-2. **Community partnerships** — FPL communities, crypto sports DAOs
-3. **Grow the tournament ecosystem** — more leagues, more stakes, more engagement
+| **FonioLabs** | Full-stack Web3 development, Solana smart contracts, mobile-first dApps |
 
 ---
 
 ## Summary
 
-> **Football Fusion** brings the world's most popular sport to Solana Mobile — with real stakes, real transparency, and a real mobile experience.
+> **Fantasy football is a $22B market controlled by corporations that pay one winner a year.**
 >
-> 3.5B football fans. $22B fantasy market. Zero mobile-native Solana apps serving them.
+> **Football Fusion puts the power back in the players' hands.**
 >
-> **We're building the one.**
+> Create your own tournaments. Set your own stakes. Get paid every week.  
+> Play across leagues. Play year-round. Every dollar transparent on-chain.
+>
+> **PvP fantasy football — owned by the players, not the platform.**
 
 ---
 
 **🔗 Links**
 - GitHub: [github.com/foniolabs/football-fusion-mobile](https://github.com/foniolabs/football-fusion-mobile)
 - Program: [5AaoN6kBmNoEqTiNPaV2y1am9QrEEHwgRHneR1QNExLm](https://explorer.solana.com/address/5AaoN6kBmNoEqTiNPaV2y1am9QrEEHwgRHneR1QNExLm?cluster=devnet)
-- Platform TX: [Explorer](https://explorer.solana.com/tx/7CC1wMzhkf2xfFUfThzvkThxWjAkmSU7RH9XHbnztWUBrqWxRdf2gk76CKg1y3y2ziZkK6rbJ8JGWVkZMThu9TZ?cluster=devnet)
+- Platform TX: [Solana Explorer](https://explorer.solana.com/tx/7CC1wMzhkf2xfFUfThzvkThxWjAkmSU7RH9XHbnztWUBrqWxRdf2gk76CKg1y3y2ziZkK6rbJ8JGWVkZMThu9TZ?cluster=devnet)
