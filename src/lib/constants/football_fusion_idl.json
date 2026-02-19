@@ -1,0 +1,367 @@
+{
+  "version": "0.1.0",
+  "name": "football_fusion",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        { "name": "platform", "isMut": true, "isSigner": false },
+        { "name": "usdcMint", "isMut": false, "isSigner": false },
+        { "name": "feeVault", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "rent", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "createTournament",
+      "accounts": [
+        { "name": "platform", "isMut": true, "isSigner": false },
+        { "name": "tournament", "isMut": true, "isSigner": false },
+        { "name": "prizeVault", "isMut": true, "isSigner": false },
+        { "name": "usdcMint", "isMut": false, "isSigner": false },
+        { "name": "creator", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "rent", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "name", "type": "string" },
+        { "name": "competition", "type": "string" },
+        { "name": "entryFee", "type": "u64" },
+        { "name": "maxParticipants", "type": "u16" },
+        { "name": "registrationDeadline", "type": "i64" },
+        { "name": "durationDays", "type": "u16" }
+      ]
+    },
+    {
+      "name": "joinTournament",
+      "accounts": [
+        { "name": "platform", "isMut": true, "isSigner": false },
+        { "name": "tournament", "isMut": true, "isSigner": false },
+        { "name": "team", "isMut": true, "isSigner": false },
+        { "name": "playerStats", "isMut": true, "isSigner": false },
+        { "name": "participantList", "isMut": true, "isSigner": false },
+        { "name": "participantTokenAccount", "isMut": true, "isSigner": false },
+        { "name": "prizeVault", "isMut": true, "isSigner": false },
+        { "name": "participant", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "rent", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "teamName", "type": "string" },
+        { "name": "playerIds", "type": { "vec": "u32" } }
+      ]
+    },
+    {
+      "name": "updateTeam",
+      "accounts": [
+        { "name": "tournament", "isMut": false, "isSigner": false },
+        { "name": "team", "isMut": true, "isSigner": false },
+        { "name": "participant", "isMut": false, "isSigner": true }
+      ],
+      "args": [
+        { "name": "playerIds", "type": { "vec": "u32" } }
+      ]
+    },
+    {
+      "name": "startTournament",
+      "accounts": [
+        { "name": "platform", "isMut": false, "isSigner": false },
+        { "name": "tournament", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": false, "isSigner": true }
+      ],
+      "args": []
+    },
+    {
+      "name": "recordMatchWeekScores",
+      "accounts": [
+        { "name": "platform", "isMut": false, "isSigner": false },
+        { "name": "tournament", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": false, "isSigner": true }
+      ],
+      "args": [
+        { "name": "gameweek", "type": "u32" },
+        { "name": "participants", "type": { "vec": "publicKey" } },
+        { "name": "scores", "type": { "vec": "u64" } }
+      ]
+    },
+    {
+      "name": "updateParticipantScore",
+      "accounts": [
+        { "name": "platform", "isMut": false, "isSigner": false },
+        { "name": "tournament", "isMut": false, "isSigner": false },
+        { "name": "team", "isMut": true, "isSigner": false },
+        { "name": "playerStats", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": false, "isSigner": true }
+      ],
+      "args": [
+        { "name": "points", "type": "u64" }
+      ]
+    },
+    {
+      "name": "completeTournament",
+      "accounts": [
+        { "name": "platform", "isMut": false, "isSigner": false },
+        { "name": "tournament", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": false, "isSigner": true }
+      ],
+      "args": []
+    },
+    {
+      "name": "distributePrize",
+      "accounts": [
+        { "name": "platform", "isMut": false, "isSigner": false },
+        { "name": "tournament", "isMut": true, "isSigner": false },
+        { "name": "prizeVault", "isMut": true, "isSigner": false },
+        { "name": "winner", "isMut": false, "isSigner": false },
+        { "name": "winnerTokenAccount", "isMut": true, "isSigner": false },
+        { "name": "winnerStats", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": false, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "place", "type": "u8" }
+      ]
+    },
+    {
+      "name": "cancelTournament",
+      "accounts": [
+        { "name": "platform", "isMut": false, "isSigner": false },
+        { "name": "tournament", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": false, "isSigner": true }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawPlatformFees",
+      "accounts": [
+        { "name": "platform", "isMut": true, "isSigner": false },
+        { "name": "feeVault", "isMut": true, "isSigner": false },
+        { "name": "authorityTokenAccount", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": true, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeParticipantList",
+      "accounts": [
+        { "name": "tournament", "isMut": false, "isSigner": false },
+        { "name": "participantList", "isMut": true, "isSigner": false },
+        { "name": "payer", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Platform",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "authority", "type": "publicKey" },
+          { "name": "tournamentCounter", "type": "u64" },
+          { "name": "totalPlatformFees", "type": "u64" },
+          { "name": "globalPlayerCount", "type": "u64" },
+          { "name": "usdcMint", "type": "publicKey" },
+          { "name": "feeVault", "type": "publicKey" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "Tournament",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "id", "type": "u64" },
+          { "name": "creator", "type": "publicKey" },
+          { "name": "name", "type": "string" },
+          { "name": "competition", "type": "string" },
+          { "name": "entryFee", "type": "u64" },
+          { "name": "maxParticipants", "type": "u16" },
+          { "name": "currentParticipants", "type": "u32" },
+          { "name": "prizePool", "type": "u64" },
+          { "name": "registrationDeadline", "type": "i64" },
+          { "name": "durationDays", "type": "u16" },
+          { "name": "endTime", "type": "i64" },
+          { "name": "currentGameweek", "type": "u32" },
+          { "name": "status", "type": { "defined": "TournamentStatus" } },
+          { "name": "prizesDistributed", "type": "bool" },
+          { "name": "prizeVault", "type": "publicKey" },
+          { "name": "bump", "type": "u8" },
+          { "name": "prizeVaultBump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "Team",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "owner", "type": "publicKey" },
+          { "name": "name", "type": "string" },
+          { "name": "tournamentId", "type": "u64" },
+          { "name": "playerIds", "type": { "vec": "u32" } },
+          { "name": "totalPoints", "type": "u64" },
+          { "name": "budget", "type": "u64" },
+          { "name": "isRegistered", "type": "bool" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "GlobalPlayerStats",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "player", "type": "publicKey" },
+          { "name": "totalPoints", "type": "u64" },
+          { "name": "tournamentsPlayed", "type": "u64" },
+          { "name": "tournamentsWon", "type": "u64" },
+          { "name": "totalEarnings", "type": "u64" },
+          { "name": "lastActiveTimestamp", "type": "i64" },
+          { "name": "isInitialized", "type": "bool" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "ParticipantList",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "tournamentId", "type": "u64" },
+          { "name": "participants", "type": { "vec": "publicKey" } },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "TournamentStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          { "name": "Created" },
+          { "name": "Active" },
+          { "name": "Completed" },
+          { "name": "Cancelled" }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "TournamentCreated",
+      "fields": [
+        { "name": "tournamentId", "type": "u64", "index": false },
+        { "name": "creator", "type": "publicKey", "index": false },
+        { "name": "name", "type": "string", "index": false },
+        { "name": "entryFee", "type": "u64", "index": false },
+        { "name": "maxParticipants", "type": "u16", "index": false },
+        { "name": "registrationDeadline", "type": "i64", "index": false },
+        { "name": "durationDays", "type": "u16", "index": false }
+      ]
+    },
+    {
+      "name": "ParticipantJoined",
+      "fields": [
+        { "name": "tournamentId", "type": "u64", "index": false },
+        { "name": "participant", "type": "publicKey", "index": false },
+        { "name": "teamName", "type": "string", "index": false }
+      ]
+    },
+    {
+      "name": "TeamUpdated",
+      "fields": [
+        { "name": "tournamentId", "type": "u64", "index": false },
+        { "name": "participant", "type": "publicKey", "index": false },
+        { "name": "playerIds", "type": { "vec": "u32" }, "index": false }
+      ]
+    },
+    {
+      "name": "PointsUpdated",
+      "fields": [
+        { "name": "tournamentId", "type": "u64", "index": false },
+        { "name": "participant", "type": "publicKey", "index": false },
+        { "name": "points", "type": "u64", "index": false }
+      ]
+    },
+    {
+      "name": "MatchWeekScoresRecorded",
+      "fields": [
+        { "name": "tournamentId", "type": "u64", "index": false },
+        { "name": "gameweek", "type": "u32", "index": false },
+        { "name": "participantCount", "type": "u32", "index": false }
+      ]
+    },
+    {
+      "name": "TournamentStarted",
+      "fields": [
+        { "name": "tournamentId", "type": "u64", "index": false }
+      ]
+    },
+    {
+      "name": "TournamentCompleted",
+      "fields": [
+        { "name": "tournamentId", "type": "u64", "index": false }
+      ]
+    },
+    {
+      "name": "PrizeDistributed",
+      "fields": [
+        { "name": "tournamentId", "type": "u64", "index": false },
+        { "name": "winner", "type": "publicKey", "index": false },
+        { "name": "place", "type": "u8", "index": false },
+        { "name": "amount", "type": "u64", "index": false }
+      ]
+    },
+    {
+      "name": "TournamentCancelled",
+      "fields": [
+        { "name": "tournamentId", "type": "u64", "index": false }
+      ]
+    },
+    {
+      "name": "PlatformFeesWithdrawn",
+      "fields": [
+        { "name": "authority", "type": "publicKey", "index": false },
+        { "name": "amount", "type": "u64", "index": false }
+      ]
+    }
+  ],
+  "errors": [
+    { "code": 6000, "name": "InvalidName", "msg": "Invalid tournament name" },
+    { "code": 6001, "name": "InvalidCompetition", "msg": "Invalid competition name" },
+    { "code": 6002, "name": "InvalidParticipantCount", "msg": "Invalid participant count (2-64)" },
+    { "code": 6003, "name": "InvalidDuration", "msg": "Invalid duration (must be >= 1 day)" },
+    { "code": 6004, "name": "DeadlineInPast", "msg": "Registration deadline must be in the future" },
+    { "code": 6005, "name": "TournamentNotOpen", "msg": "Tournament is not open for registration" },
+    { "code": 6006, "name": "RegistrationClosed", "msg": "Registration has closed" },
+    { "code": 6007, "name": "TournamentFull", "msg": "Tournament is full" },
+    { "code": 6008, "name": "InvalidPlayerCount", "msg": "Must select exactly 15 players" },
+    { "code": 6009, "name": "NotRegistered", "msg": "Not registered in this tournament" },
+    { "code": 6010, "name": "InvalidStatus", "msg": "Invalid tournament status" },
+    { "code": 6011, "name": "RegistrationStillOpen", "msg": "Registration is still open" },
+    { "code": 6012, "name": "NotEnoughParticipants", "msg": "Not enough participants (need at least 2)" },
+    { "code": 6013, "name": "Unauthorized", "msg": "Unauthorized" },
+    { "code": 6014, "name": "ArrayLengthMismatch", "msg": "Array length mismatch" },
+    { "code": 6015, "name": "TournamentNotActive", "msg": "Tournament is not active" },
+    { "code": 6016, "name": "TournamentNotEnded", "msg": "Tournament has not ended yet" },
+    { "code": 6017, "name": "TournamentNotCompleted", "msg": "Tournament is not completed" },
+    { "code": 6018, "name": "NoPrizePool", "msg": "No prize pool to distribute" },
+    { "code": 6019, "name": "InvalidPlace", "msg": "Invalid place (must be 1, 2, or 3)" },
+    { "code": 6020, "name": "CannotCancel", "msg": "Cannot cancel this tournament" },
+    { "code": 6021, "name": "NoFeesToWithdraw", "msg": "No platform fees to withdraw" }
+  ],
+  "metadata": {
+    "address": "5AaoN6kBmNoEqTiNPaV2y1am9QrEEHwgRHneR1QNExLm"
+  }
+}
