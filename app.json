@@ -38,6 +38,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "acf969ce-c874-497f-98bb-b1f01ec9fcc9"
+      }
+    },
+    "owner": "web3normad"
   }
 }
